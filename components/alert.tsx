@@ -15,6 +15,7 @@ export default function CustomAlert({ visible, onClose, onConfirm }: CustomAlert
     <Modal
       transparent
       statusBarTranslucent
+      navigationBarTranslucent
       visible={visible}
       animationType="fade"
     >

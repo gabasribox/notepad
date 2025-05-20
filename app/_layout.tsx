@@ -2,11 +2,12 @@ import { Stack } from "expo-router";
 import { useTheme } from "../components/themeprovider";
 
 export default function Layout() {
-  const { themeStyles } = useTheme();
+  const { darkMode, themeStyles } = useTheme();
 
   return (
     <Stack
       screenOptions={{
+        navigationBarColor: darkMode ? "#000000" : "#ffffff",
         headerStyle: {
           backgroundColor: themeStyles.header.backgroundColor,
         },

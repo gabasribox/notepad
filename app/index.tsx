@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, FlatList, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
 import { useNoteStore } from "../stores/notestore";
 import { StatusBar } from "expo-status-bar";
 import NoteCard from "../components/notecard";
@@ -27,7 +27,12 @@ export default function Home() {
         data={notes}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <NoteCard note={item}/>}
-        contentContainerStyle={styles.list}
+        contentContainerStyle={[styles.list, notes.length === 0 && styles.emptyListContainer]}
+        ListEmptyComponent={
+          <Text style={[styles.emptyText, themeStyles.text]}>
+            No notes created yet
+          </Text>
+        }
       />
 
       <TouchableOpacity 
@@ -56,5 +61,16 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     justifyContent: "center",
     alignItems: "center"
-  }
+  },
+  emptyListContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyText: {
+    fontSize: 16,
+    textAlign: "center",
+    marginTop: 20,
+  },
+
 });
