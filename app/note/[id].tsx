@@ -2,10 +2,13 @@ import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useNoteStore } from "../../stores/notestore";
+import { useTheme } from "../../components/themeprovider";
 
 export default function NoteDetail() {
   const { id } = useLocalSearchParams();
   const { notes, updateNote } = useNoteStore();
+  const { themeStyles } = useTheme();
+  const { darkMode } = useTheme();
 
   const note = notes.find(n => n.id.toString() === id);
   const [editing, setEditing] = useState(false);
@@ -14,8 +17,8 @@ export default function NoteDetail() {
 
   if (!note) {
     return (
-      <View style={styles.container}>
-        <Text>Note not found.</Text>
+      <View style={[styles.container, themeStyles.container]}>
+        <Text style={themeStyles.text}>Note not found.</Text>
       </View>
     );
   }
@@ -30,7 +33,7 @@ export default function NoteDetail() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, themeStyles.container]}>
       <Stack.Screen
         options={{
           title: editing ? "Editing Note" : "",
@@ -51,32 +54,46 @@ export default function NoteDetail() {
               </TouchableOpacity>
             )
           ),
+          headerStyle: {
+            backgroundColor: themeStyles.header.backgroundColor,
+          },
+          headerTintColor: themeStyles.text.color,
         }}
       />
 
       {editing ? (
         <>
           <TextInput
-            style={styles.titleInput}
+            style={[
+              themeStyles.titleInput, 
+              { color: themeStyles.text.color }
+            ]}
             value={editedTitle}
             onChangeText={setEditedTitle}
             placeholder="Note Title"
-            placeholderTextColor="#999"
+            placeholderTextColor={darkMode ? "#cccccc" : "#666666"}
             autoFocus
           />
           <TextInput
-            style={styles.contentInput}
+            style={[
+              themeStyles.contentInput,
+              { color: themeStyles.text.color }
+            ]}
             value={editedContent}
             onChangeText={setEditedContent}
             multiline
             placeholder="Note Content"
-            placeholderTextColor="#999"
+            placeholderTextColor={darkMode ? "#cccccc" : "#666666"}
           />
         </>
       ) : (
         <>
-          <Text style={styles.title}>{note.title || "Untitled Note"}</Text>
-          <Text style={styles.content}>{note.content}</Text>
+          <Text style={[styles.title, themeStyles.text]}>
+            {note.title || "Untitled Note"}
+          </Text>
+          <Text style={[styles.content, themeStyles.text]}>
+            {note.content}
+          </Text>
         </>
       )}
     </View>
@@ -87,33 +104,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#ffffff"
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
-    color: "#000000"
   },
   content: {
     fontSize: 18,
-    lineHeight: 24,
-    color: "#000000"
-  },
-  titleInput: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-    color: "#000000",
-    paddingBottom: 8,
-  },
-  contentInput: {
-    flex: 1,
-    fontSize: 18,
-    lineHeight: 24,
-    color: "#000000",
-    textAlignVertical: "top",
-    paddingTop: 0,
   },
   headerButtonContainer: {
     marginRight: 16,

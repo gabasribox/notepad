@@ -3,8 +3,11 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import { useNoteStore } from "../../stores/notestore";
 import { useRouter } from "expo-router";
 import { Stack } from "expo-router";
+import { useTheme } from "../../components/themeprovider";
 
 export default function NewNote() {
+  const { themeStyles } = useTheme();
+
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { addNote } = useNoteStore();
@@ -22,7 +25,7 @@ export default function NewNote() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[themeStyles.container, styles.container]}>
       <Stack.Screen
         options={{
           title: "",
@@ -35,7 +38,10 @@ export default function NewNote() {
       />
 
       <TextInput
-        style={styles.titleInput}
+        style={[
+          themeStyles.titleInput, 
+          { color: themeStyles.text.color }
+        ]}
         placeholder="Note Title"
         value={title}
         onChangeText={setTitle}
@@ -43,7 +49,10 @@ export default function NewNote() {
       />
 
       <TextInput
-        style={styles.contentInput}
+        style={[
+          themeStyles.contentInput, 
+          { color: themeStyles.text.color }
+        ]}
         placeholder="Start writing..."
         value={content}
         onChangeText={setContent}
@@ -57,7 +66,6 @@ export default function NewNote() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
     padding: 16,
   },
   saveButton: {
@@ -70,7 +78,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 16,
-    color: "#000000",
+    color: "#ffffff",
   },
   contentInput: {
     flex: 1,

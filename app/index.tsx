@@ -7,10 +7,13 @@ import NoteCard from "../components/notecard";
 import SearchBar from "../components/searchbar";
 import SettingsIcon from "../components/settings";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "../components/themeprovider";
 
 export default function Home() {
   const router = useRouter();
   const { notes } = useNoteStore();
+  const { darkMode } = useTheme();
+  const { themeStyles } = useTheme();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -27,22 +30,22 @@ export default function Home() {
         contentContainerStyle={styles.list}
       />
 
-      <TouchableOpacity style={styles.button} onPress={() => router.push("/note/new")}>
-        <Ionicons name="create-outline" size={24} color="#ffffff"/>
+      <TouchableOpacity 
+        style={[styles.button, themeStyles.button]} 
+        onPress={() => router.push("/note/new")}
+      >
+        <Ionicons name="create-outline" size={24} color={darkMode ? "#000000" : "#ffffff"}/>
       </TouchableOpacity>
 
-      <StatusBar style="auto"/>
+      <StatusBar style={darkMode ? "light" : "dark"} />
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {flex: 1, padding: 16},
-  
   header: {flexDirection: "row", justifyContent: "space-between", alignItems: "center"},
-  
   list: {marginTop: 16},
-  
   button: {
     position: "absolute",
     right: 24,

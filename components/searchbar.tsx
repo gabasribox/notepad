@@ -1,16 +1,20 @@
 import { useState } from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "../components/themeprovider";
 
 export default function SearchBar() {
   const [ query, setQuery ] = useState("");
+  const { darkMode } = useTheme();
+  const { themeStyles } = useTheme();
 
   return (
-    <View style={styles.container}>
-      <Ionicons name="search" size={20} color="#999999" style={styles.icon}/>
+    <View style={themeStyles.searchInput}>
+      <Ionicons name="search" size={20} color={darkMode ? "#ffffff" : "#000000"} style={styles.icon}/>
       <TextInput
         style={styles.input}
         placeholder="Search Note"
+        placeholderTextColor={darkMode ? "#cccccc" : "#666666"}
         value={query}
         onChangeText={setQuery}
       />

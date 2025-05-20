@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { useRouter } from "expo-router";
 import { useNoteStore } from "../stores/notestore";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "../components/themeprovider";
+import CustomAlert from "./alert";
 
 interface NoteCardProps {
   note: {
@@ -13,25 +16,26 @@ interface NoteCardProps {
 export default function NoteCard({ note }: NoteCardProps) {
   const router = useRouter();
   const { deleteNote } = useNoteStore();
+  const { darkMode } = useTheme();
+  const { themeStyles } = useTheme();
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleDelete = () => {
-    Alert.alert(
-      "Delete Note",
-      "Are you sure you want to delete this note?",
-      [
-        {text: "Cancel", style: "cancel"},
-        {text: "Delete", onPress: () => deleteNote(note.id), style: "destructive"}
-      ]
-    );
+    setShowAlert(true);
+  };
+
+  const confirmDelete = () => {
+    deleteNote(note.id);
+    setShowAlert(false);
   };
 
   return (
     <View style={styles.container}>
       <TouchableOpacity 
         onPress={() => router.push(`/note/${note.id}`)}
-        style={styles.card}
+        style={themeStyles.card}
       >
-        <Text style={styles.title} numberOfLines={1}>
+        <Text style={themeStyles.title} numberOfLines={1}>
           {note.title || "Untitled Note"}
         </Text>
         
@@ -39,9 +43,10 @@ export default function NoteCard({ note }: NoteCardProps) {
           onPress={handleDelete}
           style={styles.deleteButton}
         >
-          <Ionicons name="trash-bin-outline" size={20} color="#000000" />
+          <Ionicons name="trash-bin-outline" size={20} color={darkMode ? "#ffffff" : "#000000"} />
         </TouchableOpacity>
       </TouchableOpacity>
+      <CustomAlert visible={showAlert} onClose={() => setShowAlert(false)} onConfirm={confirmDelete} />
     </View>
   );
 }
