@@ -29,10 +29,10 @@ export default function CustomAlert({ visible, onClose, onConfirm }: CustomAlert
           </Text>
           <View style={styles.buttons}>
             <TouchableOpacity onPress={onClose} style={styles.button}>
-              <Text style={{ color: darkMode ? '#ccc' : '#555', fontSize: 18 }}>Cancel</Text>
+              <Text style={[{ color: darkMode ? '#ccc' : '#555'}, styles.buttonText]}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={onConfirm} style={styles.button}>
-              <Text style={{ color: '#e53935', fontSize: 18 }}>Delete</Text>
+              <Text style={[{ color: '#e53935'}, styles.buttonText]}>Delete</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   title: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '600',
     marginBottom: 10,
   },
@@ -71,4 +71,7 @@ const styles = StyleSheet.create({
   button: {
     marginLeft: 12,
   },
+  buttonText: {
+    fontSize: 20
+  }
 });
