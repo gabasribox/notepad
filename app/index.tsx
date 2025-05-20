@@ -28,7 +28,7 @@ export default function Home() {
       />
 
       <TouchableOpacity style={styles.button} onPress={() => router.push("/note/new")}>
-        <Ionicons name="add" size={32} color="#ffffff"/>
+        <Ionicons name="create-outline" size={24} color="#ffffff"/>
       </TouchableOpacity>
 
       <StatusBar style="auto"/>
@@ -38,8 +38,11 @@ export default function Home() {
 
 const styles = StyleSheet.create({
   container: {flex: 1, padding: 16},
+  
   header: {flexDirection: "row", justifyContent: "space-between", alignItems: "center"},
+  
   list: {marginTop: 16},
+  
   button: {
     position: "absolute",
     right: 24,
